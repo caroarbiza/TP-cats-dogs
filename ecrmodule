@@ -1,5 +1,0 @@
-module "ecr_image" {
-  source             = "github.com/byu-oit/terraform-aws-ecr-image?ref=v1.0.1"
-  dockerfile_dir     = "./cats"
-  ecr_repository_url = "813627017350.dkr.ecr.us-east-1.amazonaws.com/test"
-}
