@@ -115,8 +115,15 @@ resource "aws_ecs_service" "ecs_taskcat1" {
   cluster         = aws_ecs_cluster.cluster_catdog.id
   launch_type     = "FARGATE"
   network_configuration {
-    subnets         = [aws_subnet.subnet_public_one.id, aws_subnet.subnet_public_two.id]
-    security_groups = [aws_security_group.allow_http.id]
+    subnets          = [aws_subnet.subnet_public_one.id, aws_subnet.subnet_public_two.id]
+    security_groups  = [aws_security_group.allow_http.id]
+    assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.cat_tg.arn
+    container_name   = "first-cat"
+    container_port   = 80
   }
 }
 
@@ -126,8 +133,15 @@ resource "aws_ecs_service" "ecs_taskcat2" {
   cluster         = aws_ecs_cluster.cluster_catdog.id
   launch_type     = "FARGATE"
   network_configuration {
-    subnets         = [aws_subnet.subnet_public_one.id, aws_subnet.subnet_public_two.id]
-    security_groups = [aws_security_group.allow_http.id]
+    subnets          = [aws_subnet.subnet_public_one.id, aws_subnet.subnet_public_two.id]
+    security_groups  = [aws_security_group.allow_http.id]
+    assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.cat_tg.arn
+    container_name   = "second-cat"
+    container_port   = 80
   }
 }
 
@@ -138,10 +152,17 @@ resource "aws_ecs_service" "ecs_taskdog1" {
   cluster         = aws_ecs_cluster.cluster_catdog.id
   launch_type     = "FARGATE"
   network_configuration {
-    subnets         = [aws_subnet.subnet_public_one.id, aws_subnet.subnet_public_two.id]
-    security_groups = [aws_security_group.allow_http.id]
+    subnets          = [aws_subnet.subnet_public_one.id, aws_subnet.subnet_public_two.id]
+    security_groups  = [aws_security_group.allow_http.id]
+    assign_public_ip = true
   }
-} 
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.dog_tg.arn
+    container_name   = "first-dog"
+    container_port   = 80
+  }
+}
 
 resource "aws_ecs_service" "ecs_taskdog2" {
   name            = "ecs_taskdog2"
@@ -149,7 +170,16 @@ resource "aws_ecs_service" "ecs_taskdog2" {
   cluster         = aws_ecs_cluster.cluster_catdog.id
   launch_type     = "FARGATE"
   network_configuration {
-    subnets         = [aws_subnet.subnet_public_one.id, aws_subnet.subnet_public_two.id]
-    security_groups = [aws_security_group.allow_http.id]
+    subnets          = [aws_subnet.subnet_public_one.id, aws_subnet.subnet_public_two.id]
+    security_groups  = [aws_security_group.allow_http.id]
+    assign_public_ip = true
   }
-} 
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.dog_tg.arn
+    container_name   = "second-dog"
+    container_port   = 80
+  }
+}
+
+
